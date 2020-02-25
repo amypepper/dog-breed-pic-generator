@@ -1,32 +1,49 @@
+"use strict";
+
 // listen for a click on the button
 function handleUserInput() {
   $(".js-button").click(function(event) {
     event.preventDefault();
 
-    // once button is clicked, collect the number that is in `input`
+    // once button is clicked, collect the text that is in `input`
     const userInput = $('input[id="dog-pics"]').val();
 
-    // add that number to the dogAPI url
-    let dogApiUrl = `https://dog.ceo/api/breeds/image/random/${userInput}`;
+    // strip out spaces and capital letters
+    let preppedText = prepText(userInput);
+
+    // add that text to the dogAPI url
+    let dogApiUrl = `https://dog.ceo/api/breed/${preppedText}/images/random`;
 
     callDogApi(dogApiUrl);
   });
 }
 
-//use fetch to call the API
+function prepText(string) {
+  const regex = /\s+/g;
+  return string
+    .toLowerCase()
+    .trim()
+    .replace(regex, "");
+}
+
+//use fetch to call the API with the userInput value in the URL and render the image from the API to the DOM
 function callDogApi(url) {
   fetch(url)
     .then(response => response.json())
-    .then(dogObj => createImgElements(dogObj.message))
-    .catch(err => console.log("error: ", err));
-}
-function createImgElements(message) {
-  message.forEach(item =>
-    $(".image-results").append(`<div><img src=${item} alt="a dog" /></div>`)
-  );
+    .then(dogObj => runControlFlow(dogObj))
+    .catch(err => $(".image-results").html(`Something went wrong! (${err})`));
 }
 
-// collect the image URLs that DogAPI has returned
-// insert the images as `img` elements into `section`
+function runControlFlow(response) {
+  if (response.status !== "success") {
+    $(".image-results").html(
+      `<p class="error">Oh no! Something went wrong.</p>`
+    );
+  } else {
+    $(".image-results").html(
+      `<div><img class="dog-pic" src="${response.message}" alt="a dog" /></div>`
+    );
+  }
+}
 
 handleUserInput();

@@ -3,21 +3,30 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <meta
+      name="description"
+      content="Type in a dog breed's name and one randomly selected image will appear"
+    />
+    <link rel="stylesheet" href="main.css" />
+    <title>Get a Pic of a Specific Dog Breed</title>
   </head>
   <body>
     <form>
-      <label for="dog-pics">How many dog pics?</label>
+      <label for="dog-pics"
+        >Which breed do you want to see?<br />(Please use only letters, spaces,
+        and hyphens. No commas, numbers, or underscores)
+      </label>
       <input
+        title="(Please use only letters, spaces,
+      and hyphens. No commas, numbers, or underscores)"
         id="dog-pics"
         type="text"
-        min="1"
-        max="50"
-        value="3"
+        pattern="/[^,_0-9]/g"
+        placeholder="type dog breed here"
         required="required"
       />
       <button type="submit" class="js-button">
-        Get dogs!
+        Get dog!
       </button>
     </form>
     <section class="image-results"></section>

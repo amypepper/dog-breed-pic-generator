@@ -37,11 +37,11 @@ function callDogApi(url) {
 function runControlFlow(response) {
   if (response.status !== "success") {
     $(".image-results").html(
-      `<p class="error">Oh no! Something went wrong.</p>`
+      `<p role="alert" class="error">Oh no! Either DogAPI doesn't have that breed or something was misspelled. Try again!</p>`
     );
   } else {
     $(".image-results").html(
-      `<div><img class="dog-pic" src="${response.message}" alt="a dog" /></div>`
+      `<div role="figure"><img class="dog-pic" src="${response.message}" alt="a dog" /></div>`
     );
   }
 }
